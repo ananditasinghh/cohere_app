@@ -74,27 +74,28 @@ if os.path.isfile('output.txt'):
 
 if os.path.isfile('output.txt'):
     st.subheader('Semantic similarity ranking:')
-    query = st.text_input("Rerank", placeholder="Query",
-                          label_visibility="collapsed")
+    query = st.text_input("Rerank", placeholder="Query", label_visibility="collapsed")
 
     if st.button("Rerank"):
-        
-            with st.spinner("Please wait..."):
+        with st.spinner("Please wait..."):
+            # Load the list generated in last step and save it in an array after removing irrelevant lines
+            with open('output.txt') as f:
+                lines = list(filter(None, f.read().splitlines()))[1:]
 
-                # Load the list generated in last step and save it in an array after removing irrelevant lines
-                with open('output.txt') as f:
-                    lines = list(filter(None, f.read().splitlines()))[1:]
+            # Load the Cohere Rerank module
+            results = co.rerank(query=query, documents=lines, top_n=5, model='rerank-english-v2.0')
 
-                # Load the Cohere Rerank module
-                results = co.rerank(
-                    query=query, documents=lines, top_n=5, model='rerank-english-v2.0')
+            # Debug: Print out the structure of results
+            st.write(results)
 
-                # Parse the results 
-                results_string = ""
-                for idx, r in enumerate(results):
-                    results_string += f"{r.document['text']}\n\n"
-                    results_string += f"Relevance Score: {r.relevance_score:.2f}\n"
-                    results_string += "\n"
+            # Parse the results
+            results_string = ""
+            for idx, r in enumerate(results):
+                # Adjust the access to the document text based on actual structure of 'r'
+                # Assuming the correct attribute might be 'text' instead of 'document'
+                results_string += f"{r['text']}\n\n"
+                results_string += f"Relevance Score: {r['relevance_score']:.2f}\n"
+                results_string += "\n"
 
-                # Show the results on the frontend
-                st.success(results_string)
+            # Show the results on the frontend
+            st.success(results_string)
