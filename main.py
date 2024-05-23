@@ -91,10 +91,10 @@ if os.path.isfile('output.txt'):
             # Parse the results
             results_string = ""
             for idx, r in enumerate(results):
-                # Adjust the access to the document text based on actual structure of 'r'
-                # Assuming the correct attribute might be 'text' instead of 'document'
-                results_string += f"{r['text']}\n\n"
-                results_string += f"Relevance Score: {r['relevance_score']:.2f}\n"
+                # Use the index attribute to fetch the corresponding document text
+                document_text = lines[r.index]
+                results_string += f"{document_text}\n\n"
+                results_string += f"Relevance Score: {r.relevance_score:.2f}\n"
                 results_string += "\n"
 
             # Show the results on the frontend
