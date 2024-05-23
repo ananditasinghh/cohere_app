@@ -78,24 +78,33 @@ if os.path.isfile('output.txt'):
 
     if st.button("Rerank"):
         with st.spinner("Please wait..."):
-            # Load the list generated in last step and save it in an array after removing irrelevant lines
-            with open('output.txt') as f:
-                lines = list(filter(None, f.read().splitlines()))[1:]
+            try:
+                # Load the list generated in last step and save it in an array after removing irrelevant lines
+                with open('output.txt') as f:
+                    lines = list(filter(None, f.read().splitlines()))[1:]
 
-            # Load the Cohere Rerank module
-            results = co.rerank(query=query, documents=lines, top_n=5, model='rerank-english-v2.0')
+                # Load the Cohere Rerank module
+                results = co.rerank(query=query, documents=lines, top_n=5, model='rerank-english-v2.0')
 
-            # Debug: Print out the structure of results
-            st.write(results)
+                # Debug: Print out the structure of results
+                st.write("Results structure:", results)
 
-            # Parse the results
-            results_string = ""
-            for idx, r in enumerate(results):
-                # Use the index attribute to fetch the corresponding document text
-                document_text = lines[r.index]
-                results_string += f"{document_text}\n\n"
-                results_string += f"Relevance Score: {r.relevance_score:.2f}\n"
-                results_string += "\n"
+                # Parse the results
+                results_string = ""
+                for idx, r in enumerate(results):
+                    # Debug: Print the type and value of r.index
+                    st.write(f"Result {idx}: Type of r.index: {type(r.index)}, Value: {r.index}")
 
-            # Show the results on the frontend
-            st.success(results_string)
+                    # Use the index attribute to fetch the corresponding document text
+                    if isinstance(r.index, int):
+                        document_text = lines[r.index]
+                        results_string += f"{document_text}\n\n"
+                        results_string += f"Relevance Score: {r.relevance_score:.2f}\n"
+                        results_string += "\n"
+                    else:
+                        st.error(f"Unexpected type for index: {type(r.index)}")
+
+                # Show the results on the frontend
+                st.success(results_string)
+            except Exception as e:
+                st.error(f"An error occurred: {str(e)}")
