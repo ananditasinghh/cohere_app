@@ -1,3 +1,9 @@
+cohere
+cohere 
+streamlit 
+annoy 
+numpy 
+python-dotenv
 aiofiles==22.1.0
 aiohttp==3.8.6
 aiosignal==1.3.1
