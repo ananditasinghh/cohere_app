@@ -71,7 +71,7 @@ if os.path.isfile('output.txt'):
             st.success(lines[similar_item_id[0]])
             
 ####################################################################################################################
-'''
+"""
 if os.path.isfile('output.txt'):
     st.subheader('Semantic similarity ranking:')
     query = st.text_input("Rerank", placeholder="Query", label_visibility="collapsed")
@@ -109,4 +109,4 @@ if os.path.isfile('output.txt'):
             except Exception as e:
                 st.error(f"An error occurred: {str(e)}")
 
-'''
+"""
