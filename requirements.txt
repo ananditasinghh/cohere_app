@@ -1,6 +1,6 @@
 cohere
 cohere 
-streamlit == 1.23.1
+streamlit==1.23.1
 annoy 
 numpy 
 python-dotenv
