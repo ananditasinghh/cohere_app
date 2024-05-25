@@ -106,4 +106,4 @@ if os.path.isfile('output.txt'):
                     st.exception(f"Exception: {e}")
 
 #copyrights
-st.markdown('<br> <br> <div style="text-align:center;font-size:15px; color: black;"> ©AnanditaSingh | 2024 </div>', unsafe_allow_html=True)
+st.markdown('<br><div style="text-align:center;font-size:15px; color: black;"> ©AnanditaSingh | 2024 </div>', unsafe_allow_html=True)
